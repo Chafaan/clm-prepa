@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLM – Formation Prépa Grandes Écoles</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #1a5c2a;
+    --green-mid: #2d7a3a;
+    --green-light: #4caf6e;
+    --gold: #c8882a;
+    --gold-light: #e8a84a;
+    --cream: #faf7f2;
+    --dark: #0e1a12;
+    --star: #1a5c2a;
+  }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 16px;
+  }
+
+  .poster {
+    width: 100%;
+    max-width: 680px;
+    background: var(--cream);
+    border: 2px solid var(--green);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 32px 80px rgba(26,92,42,0.18);
+    animation: fadeUp 0.9s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Corner ornaments */
+  .corner {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    z-index: 10;
+  }
+  .corner svg { width: 100%; height: 100%; }
+  .corner.tl { top: 10px; left: 10px; }
+  .corner.tr { top: 10px; right: 10px; transform: scaleX(-1); }
+  .corner.bl { bottom: 10px; left: 10px; transform: scaleY(-1); }
+  .corner.br { bottom: 10px; right: 10px; transform: scale(-1); }
+
+  /* Header band */
+  .header {
+    background: var(--green);
+    padding: 28px 40px 22px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 12px,
+      rgba(255,255,255,0.03) 12px,
+      rgba(255,255,255,0.03) 24px
+    );
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 10px;
+  }
+
+  .logo-wrap {
+    width: 72px;
+    height: 72px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    flex-shrink: 0;
+  }
+  .logo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+
+  .org-name {
+    text-align: left;
+  }
+  .org-abbr {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: white;
+    line-height: 1;
+    letter-spacing: 2px;
+  }
+  .org-full {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.72);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 300;
+    margin-top: 2px;
+  }
+
+  .header-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 12px auto;
+    opacity: 0.8;
+  }
+
+  .announce {
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .main-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: white;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 4px;
+  }
+  .main-title span {
+    color: var(--gold-light);
+  }
+
+  .subtitle {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    letter-spacing: 0.5px;
+    font-weight: 300;
+  }
+
+  /* Body */
+  .body {
+    padding: 32px 40px;
+    position: relative;
+  }
+
+  /* Gold accent line */
+  .accent-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 26px;
+  }
+  .accent-line::before, .accent-line::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+  .accent-dot {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  /* Stats row */
+  .stats {
+    display: flex;
+    gap: 0;
+    margin-bottom: 28px;
+    border: 1.5px solid var(--green);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .stat {
+    flex: 1;
+    text-align: center;
+    padding: 16px 10px;
+    position: relative;
+    animation: statIn 0.6s ease both;
+  }
+  .stat:nth-child(1) { animation-delay: 0.2s; }
+  .stat:nth-child(2) { animation-delay: 0.35s; }
+  .stat:nth-child(3) { animation-delay: 0.5s; }
+  @keyframes statIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .stat:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 20%; bottom: 20%;
+    width: 1px;
+    background: var(--green);
+    opacity: 0.35;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--green);
+    line-height: 1;
+    display: block;
+  }
+  .stat-num .unit {
+    font-size: 1rem;
+    vertical-align: super;
+  }
+  .stat-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #666;
+    display: block;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .stat-sub {
+    font-size: 0.6rem;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* Two column content */
+  .cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .card {
+    border: 1.5px solid rgba(26,92,42,0.2);
+    border-radius: 3px;
+    padding: 16px 18px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: var(--green); }
+  .card-icon {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .card-title {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--green);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .card-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .card-items li {
+    font-size: 0.78rem;
+    color: #333;
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    line-height: 1.3;
+  }
+  .card-items li::before {
+    content: '▸';
+    color: var(--gold);
+    font-size: 0.65rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  /* Target schools */
+  .schools-section {
+    margin-bottom: 24px;
+  }
+  .section-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--green);
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(26,92,42,0.2);
+  }
+
+  .school-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    background: var(--green);
+    color: white;
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, transform 0.2s;
+    cursor: default;
+  }
+  .tag:hover {
+    background: var(--green-mid);
+    transform: translateY(-1px);
+  }
+  .tag.gold {
+    background: transparent;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+  }
+  .tag.gold:hover { background: rgba(200,136,42,0.08); }
+
+  /* CTA bottom */
+  .cta-band {
+    background: var(--dark);
+    margin: 0 -40px -32px;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .cta-left {
+    flex: 1;
+  }
+  .cta-urgency {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 3px;
+    font-weight: 500;
+  }
+  .cta-deadline {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: white;
+    font-weight: 700;
+  }
+
+  .cta-btn {
+    background: var(--gold);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .cta-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+  }
+
+  .online-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.55);
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+  .online-dot {
+    width: 6px; height: 6px;
+    background: #4caf6e;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(76,175,110,0.6); }
+    50% { box-shadow: 0 0 0 5px rgba(76,175,110,0); }
+  }
+
+  /* Bottom strip */
+  .bottom-strip {
+    background: var(--green);
+    height: 5px;
+    background: linear-gradient(to right, var(--green), var(--gold), var(--green));
+  }
+
+  /* ── TABLET (≤ 600px) ── */
+  @media (max-width: 600px) {
+    body { padding: 12px; }
+
+    .corner { width: 34px; height: 34px; }
+
+    .header { padding: 22px 24px 18px; }
+
+    .logo-wrap { width: 58px; height: 58px; }
+
+    .org-abbr { font-size: 1.9rem; }
+    .org-full  { font-size: 0.62rem; letter-spacing: 1px; }
+
+    .main-title { font-size: 1.6rem; }
+    .subtitle   { font-size: 0.75rem; }
+    .announce   { font-size: 0.6rem; letter-spacing: 2.5px; }
+
+    .body { padding: 22px 20px; }
+
+    .stat-num { font-size: 1.6rem; }
+    .stat-num .unit { font-size: 0.85rem; }
+    .stat-label { font-size: 0.62rem; letter-spacing: 1px; }
+    .stat-sub   { font-size: 0.56rem; }
+
+    .cols { gap: 12px; }
+
+    .card { padding: 14px 14px; }
+    .card-items li { font-size: 0.74rem; }
+
+    .cta-band {
+      margin: 0 -20px -22px;
+      padding: 16px 20px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .cta-btn { width: 100%; text-align: center; padding: 13px 20px; }
+    .cta-deadline { font-size: 1rem; }
+  }
+
+  /* ── MOBILE (≤ 420px) ── */
+  @media (max-width: 420px) {
+    body { padding: 8px; }
+
+    .header { padding: 18px 16px 14px; }
+    .header-top { gap: 12px; }
+
+    .logo-wrap { width: 50px; height: 50px; }
+    .org-abbr  { font-size: 1.6rem; }
+    .org-full  { font-size: 0.58rem; }
+
+    .main-title { font-size: 1.35rem; }
+    .subtitle   { font-size: 0.7rem; }
+
+    .body { padding: 18px 14px; }
+
+    .stats { flex-direction: column; }
+    .stat  { padding: 12px 10px; }
+    .stat:not(:last-child)::after {
+      top: auto; bottom: 0;
+      left: 15%; right: 15%;
+      width: auto; height: 1px;
+    }
+    .stat-num { font-size: 1.8rem; }
+
+    .cols { grid-template-columns: 1fr; gap: 10px; }
+
+    .tag { font-size: 0.68rem; padding: 4px 10px; }
+
+    .cta-band {
+      margin: 0 -14px -18px;
+      padding: 14px 16px;
+    }
+    .section-label { font-size: 0.6rem; letter-spacing: 2px; }
+    .card-title    { letter-spacing: 1.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="poster">
+
+  <!-- Corner ornaments -->
+  <div class="corner tl">
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 46 L2 2 L46 2" stroke="#1a5c2a" stroke-width="1.5" fill="none"/>
+      <path d="M2 30 L2 2 L30 2" stroke="#c8882a" stroke-width="1" fill="none" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="corner tr">
+    <svg viewBox="0 0 48 48" fill="none">
+      <path d="M2 46 L2 2 L46 2" stroke="#1a5c2a" stroke-width="1.5" fill="none"/>
+      <path d="M2 30 L2 2 L30 2" stroke="#c8882a" stroke-width="1" fill="none" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="corner bl">
+    <svg viewBox="0 0 48 48" fill="none">
+      <path d="M2 46 L2 2 L46 2" stroke="#1a5c2a" stroke-width="1.5" fill="none"/>
+      <path d="M2 30 L2 2 L30 2" stroke="#c8882a" stroke-width="1" fill="none" opacity="0.5"/>
+    </svg>
+  </div>
+  <div class="corner br">
+    <svg viewBox="0 0 48 48" fill="none">
+      <path d="M2 46 L2 2 L46 2" stroke="#1a5c2a" stroke-width="1.5" fill="none"/>
+      <path d="M2 30 L2 2 L30 2" stroke="#c8882a" stroke-width="1" fill="none" opacity="0.5"/>
+    </svg>
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="logo-wrap">
+        <img src="C:\Users\PC\Downloads\clmLogo.jpeg" alt="CLM Logo" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\'font-family:Playfair Display,serif;font-size:1.4rem;font-weight:900;color:#1a5c2a;\'>CLM</span>'"/>
+      </div>
+      <div class="org-name">
+        <div class="org-abbr">CLM</div>
+        <div class="org-full">Chemin des Leaders Marocains</div>
+      </div>
+    </div>
+    <div class="header-divider"></div>
+    <div class="announce">Ouvre ses portes · Promotion 2025-2026</div>
+    <div class="main-title">Formation <span>Prépa</span><br>Grandes Écoles Publiques</div>
+    <div class="subtitle">Mathématiques · Informatique · 100% en ligne</div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <div class="accent-line"><div class="accent-dot"></div></div>
+
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-num">2<span class="unit">mois</span></span>
+        <span class="stat-label">Formation</span>
+        <span class="stat-sub">intensive</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">20</span>
+        <span class="stat-label">Places</span>
+        <span class="stat-sub">disponibles seulement</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">100<span class="unit">%</span></span>
+        <span class="stat-label">En ligne</span>
+        <span class="stat-sub">partout au Maroc</span>
+      </div>
+    </div>
+
+    <!-- Two col cards -->
+    <div class="cols">
+      <div class="card">
+        <span class="card-icon">📐</span>
+        <div class="card-title">Mathématiques</div>
+        <ul class="card-items">
+          <li>Cours enregistrés en HD</li>
+          <li>Séances lives de pratique</li>
+          <li>Exercices corrigés</li>
+          <li>Examens blancs</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="card-icon">💻</span>
+        <div class="card-title">Informatique</div>
+        <ul class="card-items">
+          <li>Cours enregistrés en HD</li>
+          <li>Séances lives de pratique</li>
+          <li>Les pièges</li>
+          <li>Préparation concours</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Schools -->
+    <div class="schools-section">
+      <div class="section-label">Écoles ciblées</div>
+      <div class="school-tags">
+        <span class="tag">Les ENSAs</span>
+        <span class="tag">ENSIAS</span>
+        <span class="tag">ENSIASD</span>
+        <span class="tag">ENIAD</span>
+        <span class="tag">INPT</span>
+        <span class="tag gold">& autres écoles publiques</span>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-band">
+      <div class="cta-left">
+        <div class="cta-urgency">⏳ Inscription avant</div>
+        <div class="cta-deadline">Fin Avril 2025</div>
+        <div class="online-badge" style="margin-top:6px;">
+          <span class="online-dot"></span>
+          Formation 100% en ligne ·
+        </div>
+      </div>
+      <button class="cta-btn">Rejoindre maintenant</button>
+    </div>
+
+  </div>
+
+  <div class="bottom-strip"></div>
+</div>
+
+</body>
+</html>
